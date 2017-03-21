@@ -8,6 +8,8 @@ composer require guillegf/php-tools
 ```
 
 ## Enum
+PHP Enum implementation inspired from [`SplEnum`](http://php.net/manual/es/class.splenum.php) because it is not integrated to PHP, you have to install it separately.
+
 Using an enum instead of class constants provides the following advantages:
 
 - You can type-hint: `function setAction(Action $action) {`
