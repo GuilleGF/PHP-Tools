@@ -1,5 +1,5 @@
 # PHP-Tools
-Several tools to make life a little easier
+Several PHP 7 tools to make life a little easier
 
 ## Installation
 
@@ -17,12 +17,12 @@ Using an enum instead of class constants provides the following advantages:
 
 This Enum class is not intended to replace class constants, but only to be used when it makes sense.
 
-Class based on [myclabs/php-enum](https://github.com/myclabs/php-enum)
+Enum class based on project [`myclabs/php-enum`](https://github.com/myclabs/php-enum)
 
 ### Declaration
 
 ```php
-use MyCLabs\Enum\Enum;
+use GuilleGF\PHPTools\Tests\Enum;
 
 /**
  * Action enum
@@ -41,7 +41,7 @@ class Action extends Enum
 $action = new Action(Action::VIEW);
 
 // or
-$action = Action::VIEW();
+$action = Action::view();
 ```
 
 As you can see, static methods are automatically implemented to provide quick access to an enum value.
@@ -58,8 +58,8 @@ function setAction(Action $action) {
 
 - `__construct()` The constructor checks that the value exist in the enum
 - `__toString()` You can `echo $myValue`, it will display the enum value (value of the constant)
-- `getValue()` Returns the current value of the enum
-- `getKey()` Returns the key of the current value on Enum
+- `value()` Returns the current value of the enum
+- `key()` Returns the key of the current value on Enum
 - `equals()` Tests whether enum instances are equal (returns `true` if enum values are equal, `false` otherwise)
 
 Static methods:
@@ -71,34 +71,39 @@ Static methods:
 - `isValidKey()` Check if tested key is valid on enum set
 - `search()` Return key for searched value
 
-#### Static methods
+#### Static and magic methods
 
 ```php
 class Action extends Enum
 {
-    const VIEW = 'view';
+    const VIEW_POST = 'view';
     const EDIT = 'edit';
 }
 
 // Static method:
-$action = Action::VIEW();
-$action = Action::EDIT();
+$action = Action::viewPost();
+$action = Action::edit();
+
+// Magic method:
+$actionEdit = Action::edit();
+$actionEdit->isEdit() // return true 
 ```
 
-Static method helpers are implemented using [`__callStatic()`](http://www.php.net/manual/en/language.oop5.overloading.php#object.callstatic).
+Static method helpers are implemented using [`__callStatic()`](http://php.net/manual/en/language.oop5.overloading.php#object.callstatic).
+Magic method helpers are implemented using [`__callS()`](http://php.net/manual/en/language.oop5.overloading.php#object.call).
 
 If you care about IDE autocompletion, you can either implement the static methods yourself:
 
 ```php
 class Action extends Enum
 {
-    const VIEW = 'view';
+    const VIEW_POST = 'view';
 
     /**
      * @return Action
      */
-    public static function VIEW() {
-        return new Action(self::VIEW);
+    public static function viewPost() {
+        return new Action(self::VIEW_POST);
     }
 }
 ```
@@ -107,12 +112,12 @@ or you can use phpdoc (this is supported in PhpStorm for example):
 
 ```php
 /**
- * @method static Action VIEW()
- * @method static Action EDIT()
+ * @method static Action view()
+ * @method static Action editPost()
  */
 class Action extends Enum
 {
-    const VIEW = 'view';
+    const VIEW_POST = 'view';
     const EDIT = 'edit';
 }
 ```
