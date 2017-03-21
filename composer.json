@@ -1,6 +1,6 @@
 {
   "name": "guillegf/php-tools",
-  "description": "Several PHP tools to make life a little easier",
+  "description": "Several PHP 7 tools to make life a little easier",
   "keywords": [
     "enum",
     "collection",
@@ -17,6 +17,10 @@
       "email": "guillermogf@gmail.com"
     }
   ],
+  "require": {
+    "php": ">=7.0.0",
+    "ext-reflection": "*"
+  },
   "require-dev": {
     "phpunit/phpunit": "5.7.*"
   },

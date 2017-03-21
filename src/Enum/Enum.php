@@ -66,9 +66,9 @@ abstract class Enum
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return (string)$this->value;
+        return (string) $this->value;
     }
 
     /**
@@ -78,7 +78,7 @@ abstract class Enum
      *
      * @return bool True if Enums are equal, false if not equal
      */
-    final public function equals(Enum $enum)
+    final public function equals(Enum $enum): bool
     {
         return $this->value() === $enum->value() && static::class === get_class($enum);
     }
@@ -88,7 +88,7 @@ abstract class Enum
      *
      * @return array
      */
-    public static function keys()
+    public static function keys(): array
     {
         return array_keys(static::toArray());
     }
@@ -98,7 +98,7 @@ abstract class Enum
      *
      * @return static[] Constant name in key, Enum instance in value
      */
-    public static function values()
+    public static function values(): array
     {
         $values = array();
 
@@ -114,7 +114,7 @@ abstract class Enum
      *
      * @return array Constant name in key, constant value in value
      */
-    public static function toArray()
+    public static function toArray(): array
     {
         $class = get_called_class();
         if (!array_key_exists($class, static::$cache)) {
@@ -132,7 +132,7 @@ abstract class Enum
      *
      * @return bool
      */
-    public static function isValid($value)
+    public static function isValid($value): bool
     {
         return in_array($value, static::toArray(), true);
     }
@@ -144,7 +144,7 @@ abstract class Enum
      *
      * @return bool
      */
-    public static function isValidKey($key)
+    public static function isValidKey($key): bool
     {
         $array = static::toArray();
 
@@ -193,7 +193,7 @@ abstract class Enum
      * @param $arguments
      * @return bool
      */
-    public function __call($method, $arguments) : bool
+    public function __call($method, $arguments): bool
     {
         if (substr($method, 0, 2) === 'is')  {
             $key = static::toSnakeCase(substr($method, 2));
@@ -212,7 +212,7 @@ abstract class Enum
      * @param string $string
      * @return string
      */
-    private static function toSnakeCase(string $string) : string
+    private static function toSnakeCase(string $string): string
     {
         return strtoupper(preg_replace(
             '/(?<=\d)(?=[A-Za-z])|(?<=[A-Za-z])(?=\d)|(?<=[a-z])(?=[A-Z])/',
