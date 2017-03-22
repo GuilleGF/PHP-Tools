@@ -91,6 +91,7 @@ $action = Action::edit();
 // Magic method:
 $actionEdit = Action::edit();
 $actionEdit->isEdit() // return true 
+$actionEdit->isViewPost() // return false 
 ```
 
 Static method helpers are implemented using [`__callStatic()`](http://php.net/manual/en/language.oop5.overloading.php#object.callstatic).
@@ -109,6 +110,13 @@ class Action extends Enum
     public static function viewPost() {
         return new Action(self::VIEW_POST);
     }
+    
+    /**
+     * @return bool
+     */
+    public function isViewPost() {
+        return $this->value() === self::VIEW_POST;
+    }
 }
 ```
 
@@ -116,8 +124,11 @@ or you can use phpdoc (this is supported in PhpStorm for example):
 
 ```php
 /**
- * @method static Action view()
- * @method static Action editPost()
+ * @method static Action viewPost()
+ * @method static Action edit()
+ *
+ * @method bool isViewPost()
+ * @method bool isEdit()
  */
 class Action extends Enum
 {
