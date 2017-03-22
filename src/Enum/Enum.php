@@ -175,7 +175,7 @@ abstract class Enum
      */
     public static function __callStatic($name, $arguments)
     {
-        $key = static::toSnakeCase($name);
+        $key = self::toSnakeCase($name);
         $array = static::toArray();
         if (array_key_exists($key, $array)) {
             return new static($array[$key]);
@@ -196,7 +196,7 @@ abstract class Enum
     public function __call($method, $arguments): bool
     {
         if (substr($method, 0, 2) === 'is')  {
-            $key = static::toSnakeCase(substr($method, 2));
+            $key = $this->toSnakeCase(substr($method, 2));
             $array = static::toArray();
             if (array_key_exists($key, $array)) {
                 return $this->value() === $array[$key];
