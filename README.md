@@ -8,7 +8,7 @@ composer require guillegf/php-tools
 ```
 
 ## Enum
-PHP Enum implementation inspired from [`SplEnum`](http://php.net/manual/es/class.splenum.php) because it is not integrated to PHP, you have to install it separately.
+PHP Enum implementation inspired from [`SplEnum`](http://php.net/manual/es/class.splenum.php) and based on project [`myclabs/php-enum`](https://github.com/myclabs/php-enum) because it is not integrated to PHP, you have to install it separately.
 
 Using an enum instead of class constants provides the following advantages:
 
@@ -18,8 +18,6 @@ Using an enum instead of class constants provides the following advantages:
 - You can get a list of all the possible values (see below)
 
 This Enum class is not intended to replace class constants, but only to be used when it makes sense.
-
-Enum class based on project [`myclabs/php-enum`](https://github.com/myclabs/php-enum)
 
 ### Declaration
 
