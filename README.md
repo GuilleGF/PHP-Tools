@@ -1,4 +1,7 @@
 # PHP-Tools
+[![Build Status](https://travis-ci.org/GuilleGF/PHP-Tools.svg?branch=master)](https://travis-ci.org/GuilleGF/PHP-Tools)
+[![Code Coverage](https://scrutinizer-ci.com/g/GuilleGF/PHP-Tools/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/GuilleGF/PHP-Tools/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/GuilleGF/PHP-Tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/GuilleGF/PHP-Tools/?branch=master)
 Several PHP 7 tools to make life a little easier
 
 ## Installation
