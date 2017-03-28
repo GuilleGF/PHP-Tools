@@ -52,6 +52,22 @@ class EnumTest extends TestCase
     }
 
     /**
+     * @dataProvider invalidValueProvider
+     * @param $value
+     */
+    public function testCreatingEnumWithInvalidValueAndCustomException($value)
+    {
+        $this->expectException(
+            CloneEnumMockUnexpectedValueException::class
+        );
+        $this->expectExceptionMessage(
+            'Value \'' . $value . '\' is not part of the enum GuilleGF\PHPTools\Tests\Enum\CloneEnumMock'
+        );
+
+        new CloneEnumMock($value);
+    }
+
+    /**
      * Contains values not existing in EnumMock
      * @return array
      */
@@ -163,6 +179,16 @@ class EnumTest extends TestCase
     }
 
     /**
+     * @expectedException \GuilleGF\PHPTools\Tests\Enum\CloneEnumBadMethodCallException
+     * @expectedExceptionMessage No static method or enum constant 'UNKNOWN' in class
+     *                           UnitTest\MyCLabs\Enum\Enum\CloneEnumMock
+     */
+    public function testBadStaticAccessCustomException()
+    {
+        CloneEnumMock::UNKNOWN();
+    }
+
+    /**
      * __callStatic()
      */
     public function testIsAccess()
@@ -190,6 +216,15 @@ class EnumTest extends TestCase
     public function testBadIsAccess()
     {
         (new EnumMock(EnumMock::FOO))->isUnknown();
+    }
+
+    /**
+     * @expectedException \GuilleGF\PHPTools\Tests\Enum\CloneEnumBadMethodCallException
+     * @expectedExceptionMessage The method "isUnknown" is not defined.
+     */
+    public function testBadIsAccessCustomException()
+    {
+        (new CloneEnumMock(EnumMock::FOO))->isUnknown();
     }
 
     /**

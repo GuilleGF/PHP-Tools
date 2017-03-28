@@ -40,4 +40,39 @@ class CloneEnumMock extends Enum
     const PROBLEMATIC_NULL = null;
     const PROBLEMATIC_EMPTY_STRING = '';
     const PROBLEMATIC_BOOLEAN_FALSE = false;
+
+    /**
+     * @param string $value
+     * @return \Exception
+     */
+    public static function customInvalidValueException(string $value): \Exception
+    {
+        return new CloneEnumMockUnexpectedValueException("Value '$value' is not part of the enum " . get_called_class());
+    }
+
+    /**
+     * @param string $method
+     * @return \Exception
+     */
+    public static function customUnknownStaticMethodException(string $method): \Exception
+    {
+        throw new CloneEnumBadMethodCallException("No static method or enum constant '$method' in class " . get_called_class());
+    }
+
+    /**
+     * @param string $method
+     * @return \Exception
+     */
+    public static function customUnknownMethodException(string $method): \Exception
+    {
+        throw new CloneEnumBadMethodCallException(sprintf('The method "%s" is not defined.', $method));
+    }
+}
+
+class CloneEnumMockUnexpectedValueException extends \UnexpectedValueException
+{
+}
+
+class CloneEnumBadMethodCallException extends \BadMethodCallException
+{
 }

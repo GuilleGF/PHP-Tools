@@ -9,37 +9,29 @@
 namespace GuilleGF\PHPTools\Enum;
 
 /**
- * Base Enum class
- *
- * Create an enum by implementing this class and adding class constants.
+ * Class Enum
+ * @package GuilleGF\PHPTools\Enum
  */
 abstract class Enum
 {
     /**
-     * Enum value
-     *
      * @var mixed
      */
     protected $value;
 
     /**
-     * Store existing constants in a static cache per object.
-     *
      * @var array
      */
     protected static $cache = array();
 
     /**
-     * Creates a new value of some type
-     *
      * @param mixed $value
-     *
-     * @throws \UnexpectedValueException if incompatible type is given.
+     * @throws \Exception
      */
     public function __construct($value)
     {
         if (!$this->isValid($value)) {
-            throw new \UnexpectedValueException("Value '$value' is not part of the enum " . get_called_class());
+            throw static::customInvalidValueException($value);
         }
 
         $this->value = $value;
@@ -54,8 +46,6 @@ abstract class Enum
     }
 
     /**
-     * Returns the enum key (i.e. the constant name).
-     *
      * @return mixed
      */
     public function key()
@@ -72,10 +62,7 @@ abstract class Enum
     }
 
     /**
-     * Compares one Enum with another.
-     *
      * @param Enum $enum
-     *
      * @return bool True if Enums are equal, false if not equal
      */
     final public function equals(Enum $enum): bool
@@ -84,8 +71,6 @@ abstract class Enum
     }
 
     /**
-     * Returns the names (keys) of all constants in the Enum class
-     *
      * @return array
      */
     public static function keys(): array
@@ -94,8 +79,6 @@ abstract class Enum
     }
 
     /**
-     * Returns instances of the Enum class of all Enum constants
-     *
      * @return static[] Constant name in key, Enum instance in value
      */
     public static function values(): array
@@ -110,8 +93,6 @@ abstract class Enum
     }
 
     /**
-     * Returns all possible values as an array
-     *
      * @return array Constant name in key, constant value in value
      */
     public static function toArray(): array
@@ -126,10 +107,7 @@ abstract class Enum
     }
 
     /**
-     * Check if is valid enum value
-     *
      * @param $value
-     *
      * @return bool
      */
     public static function isValid($value): bool
@@ -138,10 +116,7 @@ abstract class Enum
     }
 
     /**
-     * Check if is valid enum key
-     *
      * @param $key
-     *
      * @return bool
      */
     public static function isValidKey($key): bool
@@ -152,10 +127,7 @@ abstract class Enum
     }
 
     /**
-     * Return key for value
-     *
      * @param $value
-     *
      * @return mixed
      */
     public static function search($value)
@@ -164,14 +136,13 @@ abstract class Enum
     }
 
     /**
-     * Returns a value when called statically like so: MyEnum::SomeValue() given SOME_VALUE is a class constant
-     * @example MyEnum::SomeValue()
+     * Returns a value when called statically like so: MyEnum::someValue() given SOME_VALUE is a class constant
+     * @example MyEnum::someValue()
      *
      * @param string $name
      * @param array  $arguments
-     *
      * @return static
-     * @throws \BadMethodCallException
+     * @throws \Exception
      */
     public static function __callStatic($name, $arguments)
     {
@@ -181,7 +152,7 @@ abstract class Enum
             return new static($array[$key]);
         }
 
-        throw new \BadMethodCallException("No static method or enum constant '$name' in class " . get_called_class());
+        throw static::customUnknownStaticMethodException($name);
     }
 
 
@@ -190,8 +161,9 @@ abstract class Enum
      * @example $myEnum->isSomeValue()
      *
      * @param string $method
-     * @param $arguments
+     * @param        $arguments
      * @return bool
+     * @throws \Exception
      */
     public function __call($method, $arguments): bool
     {
@@ -203,12 +175,10 @@ abstract class Enum
             }
         }
 
-        throw new \BadMethodCallException(sprintf('The method "%s" is not defined.', $method));
+        throw static::customUnknownMethodException($method);
     }
 
     /**
-     * Convert a string to snake case.
-     *
      * @param string $string
      * @return string
      */
@@ -219,5 +189,32 @@ abstract class Enum
             '_',
             $string
         ));
+    }
+
+    /**
+     * @param string $value
+     * @return \Exception
+     */
+    public static function customInvalidValueException(string $value): \Exception
+    {
+        return new \UnexpectedValueException("Value '$value' is not part of the enum " . get_called_class());
+    }
+
+    /**
+     * @param string $method
+     * @return \Exception
+     */
+    public static function customUnknownStaticMethodException(string $method): \Exception
+    {
+        throw new \BadMethodCallException("No static method or enum constant '$method' in class " . get_called_class());
+    }
+
+    /**
+     * @param string $method
+     * @return \Exception
+     */
+    public static function customUnknownMethodException(string $method): \Exception
+    {
+        throw new \BadMethodCallException(sprintf('The method "%s" is not defined.', $method));
     }
 }
